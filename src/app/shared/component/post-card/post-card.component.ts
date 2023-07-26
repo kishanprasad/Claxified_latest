@@ -21,7 +21,7 @@ export class PostCardComponent implements OnInit {
     totalPages = 0;
     paginatedCards: any[] = [];
     mainCategories: any = [];
-    mainCategory: any;
+    mainCategory: any ;
     constructor(private router: Router, private commonService: CommonService) { }
 
     ngOnInit() {
@@ -56,20 +56,19 @@ export class PostCardComponent implements OnInit {
         );
     }
     navigateToDetails(data: any) {
-        this.router.navigate(["/"+this.mainCategory + '/post-details', data.tableRefGuid]);
+        this.getMainCategoryName(data);
     }
     getMainCategories() {
         this.commonService.getAllCategory().subscribe((data: any) => {
             this.mainCategories = data;
-            this.getMainCategoryName(this.paginatedCards);
         });
     }
     onLinkRightClick(data: any) {
-        this.getMainCategoryName(this.paginatedCards);
+        this.getMainCategoryName(data);
     }
     getMainCategoryName(data:any){
         for (var i = 0; i < this.mainCategories.length; i++) {
-            if (this.mainCategories[i].id == data[0].categoryId){
+            if (this.mainCategories[i].id == data.categoryId){
                 this.mainCategory = this.mainCategories[i].categoryName;
                 break;
             }
