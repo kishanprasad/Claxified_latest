@@ -1,0 +1,23 @@
+.flex {
+  display: flex;
+}
+
+.cards {
+  margin-left: 45px;
+  width: 100%;
+}
+
+.spinner__loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+  margin-left: 30%;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.w-30 {
+  width: 30%;
+}

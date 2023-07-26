@@ -3,14 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { PostMenuComponent } from './modules/post-menu/post-menu.component';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { UserModule } from './modules/user/user.module';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent,
+    PostMenuComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
