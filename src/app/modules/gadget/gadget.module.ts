@@ -24,10 +24,7 @@ import { GadgetFilterComponent } from './component/gadget-filter/gadget-filter.c
 import { PostDetailComponent } from './component/post-detail/post-detail.component';
 import { GadgetRoutingModule } from './gadget-routing.module';
 import { GadgetPostsComponent } from './component/gadget-posts/gadget-posts.component';
-const routes: Routes = [
-  { path: 'post-details', component: PostDetailComponent },
-  { path: 'add-post', component: AddPostComponent }
-];
+
 @NgModule({
   declarations: [
     PostDetailComponent,

@@ -56,21 +56,23 @@ export class PostCardComponent implements OnInit {
         );
     }
     navigateToDetails(data: any) {
-        for (var i = 0; i < this.mainCategories.length; i++) {
-            if (this.mainCategories[i].id == data.categoryId)
-                this.mainCategory = this.mainCategories[i].categoryName;
-        }
-        this.router.navigate(["/" + this.mainCategory + '/post-details', data.tableRefGuid]);
+        this.router.navigate(["/"+this.mainCategory + '/post-details', data.tableRefGuid]);
     }
     getMainCategories() {
         this.commonService.getAllCategory().subscribe((data: any) => {
             this.mainCategories = data;
+            this.getMainCategoryName(this.paginatedCards);
         });
     }
     onLinkRightClick(data: any) {
+        this.getMainCategoryName(this.paginatedCards);
+    }
+    getMainCategoryName(data:any){
         for (var i = 0; i < this.mainCategories.length; i++) {
-            if (this.mainCategories[i].id == data.categoryId)
+            if (this.mainCategories[i].id == data[0].categoryId){
                 this.mainCategory = this.mainCategories[i].categoryName;
+                break;
+            }
         }
     }
 }

@@ -9,6 +9,8 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { PostMenuComponent } from './modules/post-menu/post-menu.component';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { UserModule } from './modules/user/user.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './modules/auth/interceptor/JwtInterceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +24,7 @@ import { UserModule } from './modules/user/user.module';
     MatProgressSpinnerModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,7 +13,7 @@
     <mat-form-field appearance="fill">
         <mat-label>State</mat-label>
         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="stateControl"
-            [matAutocomplete]="state" [(ngModel)]="selectedDistrict">
+            [matAutocomplete]="state">
         <mat-autocomplete #stateMatAutocomplete autoActiveFirstOption #state="matAutocomplete"
             (optionSelected)="onDistrictChange($event)" [displayWith]="displayLocation">
             <!-- <mat-option [value]="null">None</mat-option> -->
@@ -22,10 +22,10 @@
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field appearance="fill" *ngIf="selectedDistrict">
+    <mat-form-field appearance="fill" *ngIf="filterObj?.state">
         <mat-label>City</mat-label>
         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="cityControl"
-            [matAutocomplete]="city" [(ngModel)]="selectedCity">
+            [matAutocomplete]="city">
         <mat-autocomplete #cityMatAutocomplete autoActiveFirstOption #city="matAutocomplete"
             (optionSelected)="onCityChange($event)" [displayWith]="displayLocation">
             <!-- <mat-option [value]="null">None</mat-option> -->
@@ -35,10 +35,10 @@
         </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="selectedCity">
+    <mat-form-field appearance="fill" *ngIf="filterObj?.city">
         <mat-label>Near By</mat-label>
         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="nearByControl"
-            [matAutocomplete]="nearBy" [(ngModel)]="selectedNearBy">
+            [matAutocomplete]="nearBy">
         <mat-autocomplete #nearByMatAutocomplete autoActiveFirstOption #nearBy="matAutocomplete"
             (optionSelected)="onNearByChange($event)" [displayWith]="displayLocation">
             <!-- <mat-option [value]="null">None</mat-option> -->

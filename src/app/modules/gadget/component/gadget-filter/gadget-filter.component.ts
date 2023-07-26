@@ -23,9 +23,6 @@ export class GadgetFilterComponent {
   filteredCities!: Observable<{ id: number; name: string; }[]>;
   filteredNearBy!: Observable<{ id: number; name: string; }[]>;
   priceRange: number = 0;
-  selectedDistrict: any = null;
-  selectedCity: any = null;
-  selectedNearBy: any = null;
   country: any;
   districts: any = [];
   cities: any = [];
@@ -78,13 +75,10 @@ export class GadgetFilterComponent {
     this.filterObj.state = (event.option.value == null) ? null : event.option.value.name;
     this.commonService.setData(this.filterObj);
     this.updateAppliedFilters("state", this.filterObj.state);
-    if (this.filterObj.state == null) {
+    if (this.filterObj.state == null)
       this.appliedFilters = this.appliedFilters.filter((item: any) => (item.name != 'city' && item.name != 'nearBy'));
-    }
-    if (this.filterObj.state != null)
-      this.getCities(event.option.value.id);
     else
-      this.selectedCity = "";
+      this.getCities(event.option.value.id);
   }
   getCities(stateId: Number) {
     this.commonService.getCitiesByState(stateId).subscribe(data => {
@@ -98,10 +92,8 @@ export class GadgetFilterComponent {
     this.updateAppliedFilters("city", this.filterObj.city);
     if (this.filterObj.city == null)
       this.appliedFilters = this.appliedFilters.filter((item: any) => (item.name != 'nearBy'));
-    this.commonService.getNearPlacesByCity(event.option.value.id).subscribe(data => {
-      this.nearByPlaces = data;
-      this.getFilteredNearBy();
-    })
+    else
+      this.getNearByPlaces(event.option.value.id);
   }
   onNearByChange(event: any) {
     this.filterObj.nearBy = (event.option.value == null) ? null : event.option.value.name;
@@ -237,9 +229,9 @@ export class GadgetFilterComponent {
   }
 
   resetFilters() {
-    this.selectedDistrict = null;
-    this.selectedCity = null;
-    this.selectedNearBy = null;
+    this.stateControl.patchValue("");
+    this.cityControl.patchValue("");
+    this.nearByControl.patchValue("");
     this.stateAutocomplete.options.forEach(option => option.deselect());
     this.filterObj.state = null;
     this.filterObj.city = null;
@@ -247,15 +239,15 @@ export class GadgetFilterComponent {
   }
 
   resetCityAndNearby() {
-    this.selectedCity = null;
-    this.selectedNearBy = null;
+    this.cityControl.patchValue("");
+    this.nearByControl.patchValue("");
     this.cityAutocomplete.options.forEach(option => option.deselect());
     this.filterObj.city = null;
     this.filterObj.nearBy = null;
   }
 
   resetNearBy() {
-    this.selectedNearBy = null;
+    this.nearByControl.patchValue("");
     this.filterObj.nearBy = null;
     this.nearByAutocomplete.options.forEach(option => option.deselect());
   }
@@ -276,5 +268,11 @@ export class GadgetFilterComponent {
       startWith(""),
       map((value) => this.filterLocations(value || "", this.nearByPlaces))
     );
+  }
+  getNearByPlaces(cityId: Number) {
+    this.commonService.getNearPlacesByCity(cityId).subscribe(data => {
+      this.nearByPlaces = data;
+      this.getFilteredNearBy();
+    })
   }
 }

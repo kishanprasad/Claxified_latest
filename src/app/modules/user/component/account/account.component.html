@@ -9,7 +9,7 @@
                 </div>
                 <button class="upload-button" (click)="selectFile()">+</button>
                 <div class="p-17">
-                    <p>{{userData.email}}</p>
+                    <p>{{userData?.email}}</p>
                     <a routerLink="/user/account/personal">Go to profile</a>
                 </div>
             </mat-card-content>
