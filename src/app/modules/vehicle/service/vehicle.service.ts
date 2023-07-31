@@ -37,4 +37,8 @@ export class VehicleService {
   uploadVehicleImages(formData: any) {
     return this.httpClient.post(`${this.BaseURL}Vehicle/UploadImages`, formData);
   }
+
+  getCarModels(brandId : Number){
+    return this.httpClient.get(`${this.BaseURL}Vehicle/GetCarModel?carBrandId=` + brandId);
+  }
 }

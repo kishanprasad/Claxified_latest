@@ -13,12 +13,23 @@
         <div class="include-details">
             <mat-form-field *ngIf="subCategory !='Spare Parts'">
                 <mat-label>Brand</mat-label>
-                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="brandControl"
                     [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                     (optionSelected)="handleBrand($event.option.value)" [displayWith]="displayBrand">
                     <mat-option *ngFor="let brand of filteredBrands | async" [value]="brand">
                         {{ brand.brandName }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field *ngIf="subCategory =='Cars' && brandId">
+                <mat-label>Model</mat-label>
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="modelControl"
+                    [matAutocomplete]="model">
+                <mat-autocomplete autoActiveFirstOption #model="matAutocomplete"
+                    (optionSelected)="handleModel($event.option.value)" [displayWith]="displayModel">
+                    <mat-option *ngFor="let model of filteredModels | async" [value]="model">
+                        {{ model.model }}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>

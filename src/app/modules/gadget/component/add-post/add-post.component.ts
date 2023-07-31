@@ -92,16 +92,15 @@ export class AddPostComponent {
     this.gadgetService.uploadGadgetImages(formData).subscribe((data: any) => {
       this.progress = false;
       let imagesLength = data.length;
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < this.cardsCount.length; j++) {
-          if (this.cardsCount[j] === "" && imagesLength !== 0) {
-            this.cardsCount[j] = data[i];
-            imagesLength = imagesLength - 1;
-            return true;
-          }
+      let dataIndex = 0;
+      
+      for (let j = 0; j < this.cardsCount.length && dataIndex < data.length; j++) {
+        if (this.cardsCount[j] === "") {
+          this.cardsCount[j] = data[dataIndex];
+          dataIndex++;
+          imagesLength--;
         }
       };
-      return false;
     })
   }
   deleteBackgroundImage(index: any): void {
@@ -118,6 +117,8 @@ export class AddPostComponent {
     this.commonPayload.modifiedBy = this.userData.id;
     this.commonPayload.modifiedOn = new Date().toISOString().slice(0, 23);
     this.commonPayload.price = Number(this.commonPayload.price);
+    this.commonPayload.name = this.userData.firstName;
+    this.commonPayload.mobile = this.userData.mobileNo;
     var payload = this.addSpecificPayload(this.commonPayload);
     this.saveGadgetPost(payload);
   }

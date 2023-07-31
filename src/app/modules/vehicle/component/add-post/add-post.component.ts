@@ -18,8 +18,10 @@ import { VehicleService } from '../../service/vehicle.service';
 })
 export class AddPostComponent {
 
-  myControl = new FormControl("");
+  brandControl = new FormControl("");
+  modelControl = new FormControl("");
   filteredBrands!: Observable<{ id: number; brandName: string; }[]>;
+  filteredModels!: Observable<{ id: number; model: string; }[]>;
   cardsCount: any[] = new Array(10);
   currentImageIndex: any = 0;
   numericValue: number = 0;
@@ -54,6 +56,8 @@ export class AddPostComponent {
   }
   userData: any;
   imageUrl: string = '../../../../../assets/img_not_available.png';
+  carModels: any;
+  carModelId: any;
   constructor(private vehicleService: VehicleService, private commonService: CommonService, private snackBar: MatSnackBar, private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document, private userService: UserService) { }
 
@@ -124,16 +128,15 @@ export class AddPostComponent {
     this.vehicleService.uploadVehicleImages(formData).subscribe((data: any) => {
       this.progress = false;
       let imagesLength = data.length;
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < this.cardsCount.length; j++) {
-          if (this.cardsCount[j] === "" && imagesLength !== 0) {
-            this.cardsCount[j] = data[i];
-            imagesLength = imagesLength - 1;
-            return true;
-          }
+      let dataIndex = 0;
+      
+      for (let j = 0; j < this.cardsCount.length && dataIndex < data.length; j++) {
+        if (this.cardsCount[j] === "") {
+          this.cardsCount[j] = data[dataIndex];
+          dataIndex++;
+          imagesLength--;
         }
       };
-      return false;
     })
   }
   deleteBackgroundImage(index: any): void {
@@ -150,6 +153,8 @@ export class AddPostComponent {
     this.commonPayload.modifiedBy = this.userData.id;
     this.commonPayload.modifiedOn = new Date().toISOString().slice(0, 23);
     this.commonPayload.price = Number(this.commonPayload.price);
+    this.commonPayload.name = this.userData.firstName;
+    this.commonPayload.mobile = this.userData.mobileNo;
     var payload = this.addSpecificPayload(this.commonPayload);
     this.saveVehiclePost(payload);
   }
@@ -196,7 +201,7 @@ export class AddPostComponent {
     });
   }
   getFilteredBrands() {
-    this.filteredBrands = this.myControl.valueChanges.pipe(
+    this.filteredBrands = this.brandControl.valueChanges.pipe(
       startWith(""),
       map((value) => this.filterBrands(value || ""))
     );
@@ -236,6 +241,7 @@ export class AddPostComponent {
   }
   handleBrand(data: any) {
     this.brandId = data.id;
+    this.getCarModels(data.id);
   }
   displayBrand(brand: any): string {
     return brand.brandName || "";
@@ -308,8 +314,8 @@ export class AddPostComponent {
       this.showNotification("discription should be min 15 and max 500 charecters");
     else if (payload.price == 0)
       this.showNotification("price is rerquired");
-    else if (payload.price < 10 || payload.price > 100000)
-      this.showNotification("price should be min 10 and max 100000");
+    else if (payload.price < 10 || payload.price > 1000000)
+      this.showNotification("price should be min 10 and max 1000000");
     else if (payload.vehicleImageList.length <= 0)
       this.showNotification("In upload photo, at least 1 photo is required.");
     else if (payload.pincode.length < 6)
@@ -317,5 +323,33 @@ export class AddPostComponent {
     else
       flag = true;
     return flag;
+  }
+  getCarModels(brandId:Number){
+    this.vehicleService.getCarModels(brandId).subscribe(res=>{
+      this.carModels = res;
+      this.getFilteredModels();
+    });
+  }
+  getFilteredModels(){
+    this.filteredModels = this.modelControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => this.filterModels(value || ""))
+    );
+  }
+  filterModels(value: any): { id: number; model: string }[] {
+    var filterValue = "";
+    if (typeof value == 'object')
+      filterValue = value.model.toLowerCase();
+    else
+      filterValue = value.toLowerCase();
+    return this.carModels.filter(
+      (model: any) => model.model.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
+  displayModel(model: any): string {
+    return model?.model || "";
+  }
+  handleModel(data: any) {
+    this.carModelId = data.id;
   }
 }
