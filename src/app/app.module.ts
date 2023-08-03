@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { UserModule } from './modules/user/user.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './modules/auth/interceptor/JwtInterceptor';
+
 @NgModule({
   declarations: [
     AppComponent,

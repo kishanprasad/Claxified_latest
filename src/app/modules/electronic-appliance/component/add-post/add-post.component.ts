@@ -1,13 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, map, startWith } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { startWith, map } from 'rxjs';
+import { GadgetService } from 'src/app/modules/gadget/service/gadget.service';
 import { UserService } from 'src/app/modules/user/service/user.service';
 import { Common } from 'src/app/shared/model/CommonPayload';
 import { CommonService } from 'src/app/shared/service/common.service';
-import { GadgetService } from '../../service/gadget.service';
+import { ApplianceService } from '../../service/appliance.service';
 
 @Component({
   selector: 'app-add-post',
@@ -16,24 +16,20 @@ import { GadgetService } from '../../service/gadget.service';
 })
 export class AddPostComponent {
 
-  myControl = new FormControl("");
-  filteredBrands!: Observable<{ id: number; brandName: string; }[]>;
   cardsCount: any[] = new Array(10);
   currentImageIndex: any = 0;
   numericValue: number = 0;
-  brands: any = [];
   selectedImage: string = "";
   commonPayload: Common = new Common();
   subCategory: string = '';
   mainCategory: string = '';
   currentUploadImageIndex: number = 0;
   allUploadedFiles: any = [];
-  brandId: any;
   progress: boolean = false;
   userData: any;
   imageUrl: string = '../../../../../assets/img_not_available.png';
-  constructor(private gadgetService: GadgetService, private commonService: CommonService, private snackBar: MatSnackBar, private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: Document, private userService: UserService) { }
+  constructor(private electronicApplianceService: ApplianceService, private commonService: CommonService, private snackBar: MatSnackBar, private route: ActivatedRoute,
+    @Inject(DOCUMENT) private document: Document, private userService: UserService,private router : Router) { }
 
   ngOnInit() {
     this.getUserData();
@@ -41,31 +37,10 @@ export class AddPostComponent {
       this.cardsCount[i] = "";
     }
     this.route.queryParams.subscribe(params => {
-      this.subCategory = params['sub'];
-      this.mainCategory = params['main'];
+      this.subCategory = params['sub'].replaceAll("%20"," ");
+      this.mainCategory = params['main'].replaceAll("%20"," ");
       this.setCategoryId();
-      switch (this.subCategory) {
-        case "Mobiles": {
-          this.getMobileBrands();
-          break;
-        }
-        case "Tablets": {
-          this.getTabletBrands();
-          break;
-        }
-      }
     });
-  }
-
-  filterBrands(value: any): { id: number; brandName: string }[] {
-    var filterValue = "";
-    if (typeof value == 'object')
-      filterValue = value.brandName.toLowerCase();
-    else
-      filterValue = value.toLowerCase();
-    return this.brands.filter(
-      (brand: any) => brand.brandName.toLowerCase().indexOf(filterValue) === 0
-    );
   }
   allowOnlyNumbers(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -89,7 +64,7 @@ export class AddPostComponent {
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
-    this.gadgetService.uploadGadgetImages(formData).subscribe((data: any) => {
+    this.electronicApplianceService.uploadElectronicApplianceImages(formData).subscribe((data: any) => {
       this.progress = false;
       let imagesLength = data.length;
       let dataIndex = 0;
@@ -120,7 +95,8 @@ export class AddPostComponent {
     this.commonPayload.name = this.userData.firstName;
     this.commonPayload.mobile = this.userData.mobileNo;
     var payload = this.addSpecificPayload(this.commonPayload);
-    this.saveGadgetPost(payload);
+    console.log(payload);
+    this.saveElectronicAppliancePost(payload);
   }
   getAddress(event: any) {
     let pincode = event.target.value;
@@ -139,18 +115,6 @@ export class AddPostComponent {
       horizontalPosition: 'end',
       verticalPosition: 'top'
     });
-  }
-  getMobileBrands() {
-    this.gadgetService.getMobileBrands().subscribe(data => {
-      this.brands = data;
-      this.getFilteredBrands();
-    });
-  }
-  getFilteredBrands() {
-    this.filteredBrands = this.myControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this.filterBrands(value || ""))
-    );
   }
   setSubCategory() {
     this.commonService.getSubCategoryByCategoryId(this.commonPayload.categoryId).subscribe((data: any) => {
@@ -173,23 +137,12 @@ export class AddPostComponent {
       }
     });
   }
-  handleBrand(data: any) {
-    this.brandId = data.id;
-  }
-  displayBrand(brand: any): string {
-    return brand.brandName || "";
-  }
-  getTabletBrands() {
-    this.gadgetService.getTabletBrands().subscribe(data => {
-      this.brands = data;
-      this.getFilteredBrands();
-    })
-  }
-  saveGadgetPost(payload: any) {
+  saveElectronicAppliancePost(payload: any) {
     if(this.validatePostForm(payload))
-    this.gadgetService.saveGadgetPost(payload).subscribe(data => {
+    this.electronicApplianceService.saveElectronicAppliancePost(payload).subscribe(data => {
       this.showNotification("Post added succesfully");
       console.log(data);
+      this.router.navigateByUrl('/post-menu');
     });
   }
   addSpecificPayload(commonPayload: any): any {
@@ -199,8 +152,7 @@ export class AddPostComponent {
         imageList.push({ "gadgetsId": 0, "imageId": "100", "imageURL": imageURL });
     });
     var payload = Object.assign({}, commonPayload, {
-      gadgetImageList: imageList,
-      mobileBrandId: this.brandId
+      electronicApplianceImageList: imageList,
     });
     return payload;
   }
@@ -248,7 +200,7 @@ export class AddPostComponent {
       this.showNotification("price is rerquired");
     else if (payload.price < 10 || payload.price > 100000)
       this.showNotification("price should be min 10 and max 100000");
-    else if (payload.vehicleImageList.length <= 0)
+    else if (payload.electronicApplianceImageList.length <= 0)
       this.showNotification("In upload photo, at least 1 photo is required.");
     else if (payload.pincode.length < 6)
       this.showNotification("Pincode should be 6 digits");

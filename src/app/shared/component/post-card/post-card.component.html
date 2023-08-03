@@ -2,7 +2,7 @@
   <mat-card class="example-card" *ngFor="let card of paginatedCards" (click)="navigateToDetails(card)" (contextmenu)="onLinkRightClick(card)">
     <a class="custom-link" [href]="'http://localhost:4200/' + mainCategory + '/post-details/'+ card.tableRefGuid" target="_self">
     <img mat-card-image
-      [src]="(card?.gadgetImageList && card?.gadgetImageList[0]?.imageURL) || (card?.vehicleImageList && card?.vehicleImageList[0]?.imageURL) || '../../../assets/image_not_available.png'"
+      [src]="(card?.gadgetImageList && card?.gadgetImageList[0]?.imageURL) || (card?.vehicleImageList && card?.vehicleImageList[0]?.imageURL) || (card?.electronicApplianceImageList && card?.electronicApplianceImageList[0]?.imageURL)|| '../../../assets/image_not_available.png'"
       alt="{{ card?.title }}" class="card-image">
     <mat-card-title class="title">{{ card?.price | currency:'INR' }}</mat-card-title>
     <mat-card-content class="description">

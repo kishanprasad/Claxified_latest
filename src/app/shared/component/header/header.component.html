@@ -135,15 +135,24 @@
         <li class="dropdown"><a>Electronics & Appliances</a>
           <div class="menuOpn">
             <ul class="list-unstyled list flex">
-              <li><a>TV</a></li>
-              <li><a>Kitchen</a></li>
-              <li><a>Computer & Laptop</a></li>
-              <li><a>Camera & Lenses</a></li>
-              <li><a>Games & Entertainment</a></li>
-              <li><a>Refrigrator</a></li>
-              <li><a>Computer Accessories</a></li>
-              <li><a>AC</a></li>
-              <li><a>Washing Machine</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.TV }">TV</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.Kitchen }">Kitchen</a></li>
+                <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                  [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.Computer }">Computer & Laptop</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.Camera }">Camera & Lenses</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.GamesEntertainment }">Games & Entertainment</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.Refrigrator }">Refrigrator</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.ComputerAccessories }">Computer Accessories</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.AC }">AC</a></li>
+              <li><a [routerLink]="'/Electronics & Appliances/view-posts'"
+                [queryParams]="{ type: 'Appliances', sub: ElectronicAppliancesTypes.WashingMachine }">Washing Machine</a></li>
             </ul>
           </div>
         </li>

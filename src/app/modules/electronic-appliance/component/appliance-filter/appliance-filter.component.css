@@ -1,0 +1,51 @@
+.grid {
+    display: grid;
+    margin-left: 20px;
+  }
+  
+  .example-label-container {
+    /* display: flex; */
+    justify-content: space-between;
+    margin: 20px 10px 0;
+    max-width: 280px;
+  }
+  
+  .example-result-card .example-value-label {
+    font-weight: 600;
+  }
+  
+  .example-margin {
+    margin: 8px;
+    max-width: 284px;
+    min-width: 210px;
+  }
+  
+  .mat-slider-horizontal {
+    height: 48px;
+    min-width: 280px;
+  }
+  
+  .mat-mdc-form-field {
+    width: 220px;
+  }
+  
+  .wt-95 {
+    width: 95px;
+  }
+  
+  .toYear {
+    margin-right: 5px;
+    margin-left: 30px;
+  }
+  
+  .post {
+    margin-top: 10px;
+  }
+  
+  .fl-r {
+    float: right;
+  }
+  
+  .pd-5 {
+    padding: 5px 0;
+  }

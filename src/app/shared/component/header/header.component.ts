@@ -6,6 +6,7 @@ import { LoginComponent } from '../../../modules/user/component/login/login.comp
 import { SignupComponent } from '../../../modules/user/component/signup/signup.component';
 import { GadgetType } from '../../enum/GadgetType';
 import { VehicleType } from '../../enum/VehicleType';
+import { ElectronicApplianceType } from '../../enum/ElectronicApplianceType';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   expandIconVisible: boolean = true;
   vehicleTypes = VehicleType;
   gadgetsTypes = GadgetType;
+  ElectronicAppliancesTypes = ElectronicApplianceType;
   isUserLogedIn: boolean = false;
   userData: any;
   imageUrl: string = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg";

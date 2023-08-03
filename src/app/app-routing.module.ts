@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'Gadgets', loadChildren: () => import('./modules/gadget/gadget.module').then(m => m.GadgetModule) },
   { path: 'Vehicles', loadChildren: () => import('./modules/vehicle/vehicle.module').then(m => m.VehicleModule) },
   { path: 'user', loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),canActivate: [AuthGuard] },
+  { path: 'Electronics & Appliances', loadChildren: () => import('./modules/electronic-appliance/electronic-appliance.module').then(m => m.ElectronicApplianceModule)},
   { path : '', component : DashboardComponent},
   { path : 'post-menu', component : PostMenuComponent,canActivate: [AuthGuard]}
 

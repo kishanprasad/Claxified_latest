@@ -352,4 +352,12 @@ export class AddPostComponent {
   handleModel(data: any) {
     this.carModelId = data.id;
   }
+  selectProfilePicture() {
+    if (this.document) {
+      const uploadElement = this.document.getElementById("upload");
+      if (uploadElement) {
+        uploadElement.click();
+      }
+    }
+  }
 }

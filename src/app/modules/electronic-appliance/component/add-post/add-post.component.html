@@ -11,16 +11,6 @@
         </div>
         <h4>INCLUDE SOME DETAILS</h4>
         <div class="include-details">
-            <mat-form-field *ngIf="subCategory =='Mobiles' || subCategory =='Tablets'">
-                <mat-label>Brand</mat-label>
-                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl"
-                    [matAutocomplete]="auto">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="handleBrand($event.option.value)" [displayWith]="displayBrand">
-                    <mat-option *ngFor="let brand of filteredBrands | async" [value]="brand">
-                        {{ brand.brandName }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
             <mat-form-field>
                 <mat-label>Title</mat-label>
                 <input matInput placeholder="Enter Title" [(ngModel)]="commonPayload.title">
