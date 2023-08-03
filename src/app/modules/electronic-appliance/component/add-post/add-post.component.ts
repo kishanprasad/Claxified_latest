@@ -146,10 +146,10 @@ export class AddPostComponent {
     });
   }
   addSpecificPayload(commonPayload: any): any {
-    var imageList: { gadgetsId: number; imageId: string; imageURL: any; }[] = [];
+    var imageList: { id: number; imageId: string; imageURL: any; }[] = [];
     this.cardsCount.forEach(imageURL => {
       if (imageURL != "")
-        imageList.push({ "gadgetsId": 0, "imageId": "100", "imageURL": imageURL });
+        imageList.push({ "id": 0, "imageId": "100", "imageURL": imageURL });
     });
     var payload = Object.assign({}, commonPayload, {
       electronicApplianceImageList: imageList,
@@ -198,8 +198,8 @@ export class AddPostComponent {
       this.showNotification("discription should be min 15 and max 500 charecters");
     else if (payload.price == 0)
       this.showNotification("price is rerquired");
-    else if (payload.price < 10 || payload.price > 100000)
-      this.showNotification("price should be min 10 and max 100000");
+    else if (payload.price < 10 || payload.price > 1000000)
+      this.showNotification("price should be min 10 and max 1000000");
     else if (payload.electronicApplianceImageList.length <= 0)
       this.showNotification("In upload photo, at least 1 photo is required.");
     else if (payload.pincode.length < 6)
